@@ -6,6 +6,7 @@ input[type="text"] {
     border-radius: 2px;
 }
 
-.typeahead {
-    
+.typeahead-content-list-image {
+    height: 24px;
+    width: 24px;
 }

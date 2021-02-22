@@ -1,6 +1,7 @@
 import './App.css';
-import React, {Component} from 'react';
+import React from 'react';
 import TypeAhead from './TypeAhead.js';
+
 
 
 class App extends React.Component {

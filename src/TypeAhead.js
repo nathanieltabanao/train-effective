@@ -1,5 +1,5 @@
 import './TypeAhead.css'
-import { useState, useEffect } from 'react'
+import { useState} from 'react'
 
 function TypeAhead() {
     const [state, setState] = useState({
@@ -11,38 +11,35 @@ function TypeAhead() {
       },
       error: false
     })
-  
-  
-    // useEffect(() => {
-    //   fetch(`https://api.github.com/users/${state.input}`)
-    //     .then( response => response.json())
-    //     .then( data => { 
-    //         const { avatar_url, login } = data
-    //         setState({ 
-    //             ...state,
-    //             user: { avatar_url, login },
-    //             error: false
-    //         })
-    //         .console.log(avatar_url)
-    //     })
-    //     .catch(e => {
-    //         setState({...state,error: true})
-    //         console.log('error', e.message)
-    //     })
-    // }, [state.input])
-  
-  
+
     const inputChange = (e) => {
-      setState({...state,
+      setState({
         input: e.target.value})
-      //const { id, value } = e.target
-      //setState({ ...state, [id]: value, isShow: true })
       console.log('state: input', state.input, 'e.target.value', e.target.value)
+      console.log(apiCall());
     }
   
     const selectOption = (user) => {
       const { download_url, name } = user
       setState({ ...state, input: name, isShow: false, image: download_url })
+    }
+
+    const apiCall = () => {
+      fetch(`https://api.github.com/users/${state.input}`)
+      .then( response => response.json())
+      .then( data => { 
+          const { avatar_url, login } = data
+          setState({ 
+              ...state,
+              user: { avatar_url, login },
+              error: false
+          })
+          .console.log(avatar_url)
+      })
+      .catch(e => {
+          setState({...state,error: true})
+          console.log('error', e.message)
+      })
     }
   
   
@@ -51,7 +48,7 @@ function TypeAhead() {
             <input 
               type="text" 
               id="input" 
-              //value={state.input} 
+              value={state.input} 
               onChange={inputChange} 
               />
             
@@ -64,7 +61,7 @@ function TypeAhead() {
                       >
                         <img 
                           className="typeahead-content-list-image"  
-                          src={state.user.avatar_url} alt={`${state.user.avatar_url}`} 
+                          src={state.user.avatar_url} alt={`${state.user.avatar_url}`}
                           />
                         <span className="typeahead-content-list-name">{state.user.login}</span>
                     </div>
