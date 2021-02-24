@@ -1,5 +1,5 @@
 import './TypeAhead.css'
-import { useState} from 'react'
+import { useState, useEffect} from 'react'
 
 function TypeAhead() {
     const [state, setState] = useState({
@@ -13,10 +13,13 @@ function TypeAhead() {
     })
 
     const inputChange = (e) => {
+      const { id, value} = e.target;
       setState({
-        input: e.target.value})
+        ...state,
+        [id]: value,
+        isShow: true 
+      })
       console.log('state: input', state.input, 'e.target.value', e.target.value)
-      console.log(apiCall());
     }
   
     const selectOption = (user) => {
@@ -24,7 +27,7 @@ function TypeAhead() {
       setState({ ...state, input: name, isShow: false, image: download_url })
     }
 
-    const apiCall = () => {
+    useEffect(() => {
       fetch(`https://api.github.com/users/${state.input}`)
       .then( response => response.json())
       .then( data => { 
@@ -40,7 +43,7 @@ function TypeAhead() {
           setState({...state,error: true})
           console.log('error', e.message)
       })
-    }
+    }, [state.input])
   
   
     return (
